@@ -1,8 +1,9 @@
 package com.anderson.nimble.repository
 
-import com.anderson.nimble.data.model.LoginWithEmail
+import com.anderson.nimble.data.model.LoginWithEmailRequest
+import com.anderson.nimble.data.model.LogoutRequest
+import com.anderson.nimble.data.model.RefreshTokenRequest
 import com.anderson.nimble.data.model.Registration
-import com.anderson.nimble.data.remote.NimbleService
 import com.anderson.nimble.data.remote.NimbleServiceApi
 import javax.inject.Inject
 
@@ -21,8 +22,20 @@ class NimbleRepository @Inject constructor(
     )
 
     suspend fun loginWithEmail(
-        requestBody: LoginWithEmail
+        requestBody: LoginWithEmailRequest
     ) = nimbleServiceApi.loginWithEmail(
+        requestBody
+    )
+
+    suspend fun refreshToken(
+        requestBody: RefreshTokenRequest
+    ) = nimbleServiceApi.refreshToken(
+        requestBody
+    )
+
+    suspend fun logout(
+        requestBody: LogoutRequest
+    ) = nimbleServiceApi.logout(
         requestBody
     )
 }

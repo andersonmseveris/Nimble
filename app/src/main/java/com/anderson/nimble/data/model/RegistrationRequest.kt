@@ -1,7 +1,5 @@
 package com.anderson.nimble.data.model
 
-import com.google.gson.GsonBuilder
-
 data class Registration(
     var user: UserData,
     var client_id: String,

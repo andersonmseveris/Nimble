@@ -1,16 +1,16 @@
 package com.anderson.nimble.data.model
 
-data class LoginWithEmailResponse(
-    val data: TokenLoginData
+data class RefreshTokenResponse(
+    val data: TokenRefreshData
 )
 
-data class TokenLoginData(
+data class TokenRefreshData(
     val id: String,
     val type: String,
-    val attributes: TokenLoginAttributes
+    val attributes: TokenRefreshAttributes
 )
 
-data class TokenLoginAttributes(
+data class TokenRefreshAttributes(
     val access_token: String,
     val token_type: String,
     val expires_in: Int,
