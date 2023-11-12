@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Nimble" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="AppTheme" parent="AppTheme.Base" />
+
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/dark_sky_blue</item>
+        <item name="colorPrimary">@color/lipstick</item>
+        <item name="colorPrimaryDark">@color/berry</item>
+        <item name="colorControlNormal">@color/white</item>
+
+        <item name="android:colorAccent">@color/dark_sky_blue</item>
+        <item name="android:colorPrimary">@color/lipstick</item>
+        <item name="android:colorPrimaryDark">@color/berry</item>
+        <item name="android:colorControlNormal">@color/white</item>
+
+        <item name="android:windowBackground">@color/white</item>
+
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/white</item>
+
+    </style>
 </resources>

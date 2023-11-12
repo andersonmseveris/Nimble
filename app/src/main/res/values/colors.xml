@@ -1,2 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+    <resources xmlns:tools="http://schemas.android.com/tools">
+        <!-- Cores Plataforma -->
+        <color name="peacock_blue">#04559F</color>
+        <color name="lipstick">#e31d41</color>
+        <color name="berry">#a00c4e</color>
+        <color name="navy">#04153b</color>
+        <color name="navy60">#9904153B</color>
+        <color name="bluey_grey">#9ba1b1</color>
+        <color name="silver">#dadce2</color>
+        <color name="pale_grey">#ebedf0</color>
+        <color name="white">#FFFFFF</color>
+        <color name="tab_selected">#818a9d</color>
+
+        <!-- Cores Feedback -->
+        <color name="dark_sky_blue">#4a90e2</color>
+        <color name="dark_mint_green">#1BC36C</color>
+        <color name="warm_pink">#f65b78</color>
+
+        <!-- Cores Gráficas -->
+        <color name="steel">#858ca0</color>
+
+        <!-- Cores Cartões -->
+        <color name="dark">#1f242c</color>
+        <color name="transparent_dark">#001f242c</color>
+        <color name="transparent_dark_two">#00424a57</color>
+        <color name="dark_two">#202839</color>
+        <color name="cloudy_blue">#cedee2</color>
+        <color name="transparent_cloudy_blue">#00e9f1f3</color>
+        <color name="dull_brown">#8c7c53</color>
+        <color name="transparent_dull_brown">#00c0b38b</color>
+
+        <!-- Opacity -->
+        <color name="opacity_30">#4DFFFFFF</color>
+        <color name="opacity_50">#80FFFFFF</color>
+        <color name="opacity_70">#B3FFFFFF</color>
+        <color name="opacity_90">#E6FFFFFF</color>
+        <color name="opacity_50_bluey_grey">#809ba1b1</color>
+        <color name="opacity_50_navy">#8004153b</color>
+        <color name="opacity_30_navy">#4D04153b</color>
+        <color name="opacity_20_navy">#3304153b</color>
+
+
+        <color name="alpha_white">#F5FFFFFF</color>
+        <color name="design_snackbar_background_color" tools:ignore="PrivateResource">@null</color>
+
+        <color name="dialogTitle">#DE000000</color>
+        <color name="dialog">#8A000000</color>
+
+        <!--Tons de cinza-->
+        <color name="gray_text">#9BA1B1</color>
+        <color name="dark_gray">#04153B</color>
+        <color name="light_gray">#818A9D</color>
+        <color name="ultra_light_gray">#FAFAFB</color>
+        <color name="gainsboro">#F0F1F3</color>
+        <color name="light_periwinkle">#BDBDCA</color>
+        <color name="gray_text_opb">#9BA1AB</color>
+
+        <!--Open Banking-->
+        <color name="opbGreenStatusColor">#1BC36C</color>
+        <color name="opbGrayStatusColor">#47484C99</color>
+        <color name="opbRedStatusColor">#E01C40</color>
+        <color name="opbYellowStatusColor">#F4BF68</color>
+        <color name="opbBlueCardNumber">#2B469C</color>
+        <color name="opbGrayCard">#47484C</color>
+        <color name="ghost_white">#FAFAF9</color>
+
+        <!--Open Banking-->
+        <color name="opfGreenStatusColor">#1BC36C</color>
+        <color name="opfGrayStatusColor">#47484C99</color>
+        <color name="opfRedStatusColor">#E01C40</color>
+        <color name="opfYellowStatusColor">#F4BF68</color>
+        <color name="opfBlueCardNumber">#2B469C</color>
+        <color name="opfGrayCard">#47484C</color>
+        <color name="light_blue_400">#FF29B6F6</color>
+        <color name="light_blue_600">#FF039BE5</color>
+        <color name="gray_400">#FFBDBDBD</color>
+        <color name="gray_600">#FF757575</color>
+        <color name="color_bg_gradient_end">#F80242</color>
+        <color name="color_bg_gradient_start">#333B8F</color>
+        <color name="liquid_snackbar_tint">#47484C</color>
+        <color name="step_progress_background">#E4E5E9</color>
+        <color name="step_progress_main">#5DCB64</color>
+
+</resources>
