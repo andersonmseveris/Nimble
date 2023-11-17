@@ -1,4 +1,4 @@
-package com.anderson.nimble.data.model.`login/logout`
+package com.anderson.nimble.data.model.loginlogout
 
 data class LoginWithEmailRequest(
     var grant_type: String,
