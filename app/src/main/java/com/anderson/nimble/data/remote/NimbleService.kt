@@ -1,11 +1,5 @@
 package com.anderson.nimble.data.remote
 
-import com.anderson.nimble.data.model.LoginWithEmail
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import retrofit2.HttpException
-import retrofit2.Response
 import javax.inject.Inject
 
 class NimbleService @Inject constructor(private val nimbleApi: NimbleServiceApi) {

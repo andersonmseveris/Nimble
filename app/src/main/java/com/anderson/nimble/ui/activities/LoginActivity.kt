@@ -21,14 +21,17 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope(){
     }
 
     private lateinit var nimbleViewModel: NimbleViewModel
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         nimbleViewModel = ViewModelProvider(this)[NimbleViewModel::class.java]
 
         launch {
             nimbleViewModel.loginWithEmail()
+            nimbleViewModel.refreshToken()
+            nimbleViewModel.logout()
+            nimbleViewModel.forgotPassword()
+//            nimbleViewModel.registration()
         }
         Toast.makeText(this, "Teste", Toast.LENGTH_LONG).show()
 

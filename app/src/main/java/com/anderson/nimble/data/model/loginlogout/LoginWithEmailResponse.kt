@@ -1,16 +1,16 @@
-package com.anderson.nimble.data.model
+package com.anderson.nimble.data.model.`login/logout`
 
 data class LoginWithEmailResponse(
-    val data: TokenData
+    val data: TokenLoginData
 )
 
-data class TokenData(
+data class TokenLoginData(
     val id: String,
     val type: String,
-    val attributes: TokenAttributes
+    val attributes: TokenLoginAttributes
 )
 
-data class TokenAttributes(
+data class TokenLoginAttributes(
     val access_token: String,
     val token_type: String,
     val expires_in: Int,
