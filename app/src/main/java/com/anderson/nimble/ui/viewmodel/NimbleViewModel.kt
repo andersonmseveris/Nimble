@@ -12,6 +12,10 @@ import com.anderson.nimble.data.model.token.RefreshTokenRequest
 import com.anderson.nimble.data.model.registration.Registration
 import com.anderson.nimble.data.model.registration.UserData
 import com.anderson.nimble.data.model.forgotpassword.UserMail
+import com.anderson.nimble.data.model.survey.QuestionItem
+import com.anderson.nimble.data.model.survey.Survey
+import com.anderson.nimble.data.model.survey.SurveyDetailsResponse
+import com.anderson.nimble.data.model.survey.SurveyItem
 import com.anderson.nimble.repository.NimbleRepository
 import com.anderson.nimble.utils.ClientUtils
 import com.anderson.nimble.utils.TokenUtils
@@ -30,6 +34,12 @@ class NimbleViewModel
 //    private val nimbleUseCase: NimbleUseCase
     private val nimbleRepository: NimbleRepository
 ) : ViewModel() {
+
+    private val _surveyList = MutableLiveData<List<Survey>>()
+    val surveyList: LiveData<List<Survey>> = _surveyList
+
+    private val _surveyDetails = MutableLiveData<SurveyDetailsResponse>()
+    val surveyDetails: LiveData<SurveyDetailsResponse> = _surveyDetails
 
     private val _successfulLogin = MutableLiveData<String>()
     val successfulLogin: LiveData<String> = _successfulLogin
@@ -216,6 +226,67 @@ class NimbleViewModel
                 }
             } catch (e: Exception) {
                 Timber.e(e, "Erro ao recuperar senha")
+            }
+        }.join()
+    }
+
+    suspend fun getSurvey() {
+        viewModelScope.launch {
+            try {
+                val response = nimbleRepository.getSurvey()
+
+                if (response.isSuccessful) {
+                    val surveyResponse = response.body()
+
+                    surveyResponse?.let { survey ->
+                        _surveyList.postValue(survey.data)
+                    }
+                } else {
+                    Timber.tag("Endpoint getSurvey").e("Erro na requisição")
+                }
+            } catch (e: Exception) {
+                Timber.tag("Endpoint getSurvey").e(e.message)
+            }
+        }.join()
+    }
+    suspend fun getSurveyDetails(id: String) {
+        viewModelScope.launch {
+            try {
+                val response = nimbleRepository.getSurveyDetails(id)
+                if(response.isSuccessful) {
+
+                    val surveyDetailsResponse = response.body()
+                    surveyDetailsResponse?.let { surveyDetails ->
+
+                        val surveyItem = surveyDetails.data
+                        val includedList = surveyDetails.included
+
+                        _surveyDetails.value = surveyDetails
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+
+                    if (!errorBody.isNullOrBlank()) {
+                        try {
+                            val errorJson = JSONObject(errorBody)
+                            val errorsArray = errorJson.getJSONArray("errors")
+
+                            for (i in 0 until errorsArray.length()) {
+                                val errorObject = errorsArray.getJSONObject(i)
+                                val detail = errorObject.getString("detail")
+                                val code = errorObject.getString("code")
+
+                                Timber.tag("Error").e("Detail: $detail, Code: $code")
+                            }
+                        } catch (e: JSONException) {
+                            Timber.e(e, "Erro ao analisar JSON de erro")
+                        }
+                    } else {
+                        Timber.e("Corpo do erro vazio ou nulo")
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Erro ao recuperar detalhes das enquetes")
             }
         }.join()
     }

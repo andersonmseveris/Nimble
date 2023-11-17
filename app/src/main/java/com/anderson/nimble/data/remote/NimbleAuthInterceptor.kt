@@ -1,5 +1,6 @@
 package com.anderson.nimble.data.remote
 
+import com.anderson.nimble.utils.TokenUtils
 import okhttp3.Interceptor
 import okhttp3.Response
 import okio.Buffer
@@ -10,14 +11,8 @@ class NimbleAuthInterceptor : Interceptor{
         var request = chain.request()
         try {
             val requestBuilder = request.newBuilder()
-                .header("Authorization", "")
+                .header("Authorization",  "${TokenUtils.tokenType} ${TokenUtils.accessToken}")
 
-            val requestBody = request.body()
-            val requestBodyString = requestBody?.let { body ->
-                val buffer = Buffer()
-                body.writeTo(buffer)
-                buffer.readUtf8()
-            }
             request = requestBuilder.build()
         } catch (e: Exception) {
             Timber.tag("AuthInterceptor").e(e.message)

@@ -45,4 +45,8 @@ class NimbleRepository @Inject constructor(
     ) = nimbleServiceApi.forgotPassword(
         requestBody
     )
+
+    suspend fun getSurvey() = nimbleServiceApi.getSurvey()
+
+    suspend fun getSurveyDetails(id: String) = nimbleServiceApi.getSurveyDetails(id)
 }
