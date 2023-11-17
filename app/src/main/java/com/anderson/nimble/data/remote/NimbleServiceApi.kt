@@ -1,11 +1,13 @@
 package com.anderson.nimble.data.remote
 
-import com.anderson.nimble.data.model.LoginWithEmailRequest
-import com.anderson.nimble.data.model.LoginWithEmailResponse
-import com.anderson.nimble.data.model.LogoutRequest
-import com.anderson.nimble.data.model.RefreshTokenRequest
-import com.anderson.nimble.data.model.RefreshTokenResponse
-import com.anderson.nimble.data.model.Registration
+import com.anderson.nimble.data.model.forgotpassword.ForgotPasswordRequest
+import com.anderson.nimble.data.model.forgotpassword.ForgotPasswordResponse
+import com.anderson.nimble.data.model.`login/logout`.LoginWithEmailRequest
+import com.anderson.nimble.data.model.`login/logout`.LoginWithEmailResponse
+import com.anderson.nimble.data.model.loginlogout.LogoutRequest
+import com.anderson.nimble.data.model.token.RefreshTokenRequest
+import com.anderson.nimble.data.model.token.RefreshTokenResponse
+import com.anderson.nimble.data.model.registration.Registration
 import retrofit2.Response
 import okhttp3.ResponseBody
 import retrofit2.http.Body
@@ -32,4 +34,9 @@ interface NimbleServiceApi {
     suspend fun logout(
         @Body requestBody: LogoutRequest
     ): Response<ResponseBody>
+
+    @POST("passwords")
+    suspend fun forgotPassword(
+        @Body requestBody: ForgotPasswordRequest
+    ): Response<ForgotPasswordResponse>
 }

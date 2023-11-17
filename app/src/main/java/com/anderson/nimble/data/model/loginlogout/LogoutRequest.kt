@@ -1,4 +1,4 @@
-package com.anderson.nimble.data.model
+package com.anderson.nimble.data.model.loginlogout
 
 data class LogoutRequest(
     var token: String,

@@ -1,9 +1,10 @@
 package com.anderson.nimble.repository
 
-import com.anderson.nimble.data.model.LoginWithEmailRequest
-import com.anderson.nimble.data.model.LogoutRequest
-import com.anderson.nimble.data.model.RefreshTokenRequest
-import com.anderson.nimble.data.model.Registration
+import com.anderson.nimble.data.model.forgotpassword.ForgotPasswordRequest
+import com.anderson.nimble.data.model.`login/logout`.LoginWithEmailRequest
+import com.anderson.nimble.data.model.loginlogout.LogoutRequest
+import com.anderson.nimble.data.model.token.RefreshTokenRequest
+import com.anderson.nimble.data.model.registration.Registration
 import com.anderson.nimble.data.remote.NimbleServiceApi
 import javax.inject.Inject
 
@@ -36,6 +37,12 @@ class NimbleRepository @Inject constructor(
     suspend fun logout(
         requestBody: LogoutRequest
     ) = nimbleServiceApi.logout(
+        requestBody
+    )
+
+    suspend fun forgotPassword(
+        requestBody: ForgotPasswordRequest
+    ) = nimbleServiceApi.forgotPassword(
         requestBody
     )
 }

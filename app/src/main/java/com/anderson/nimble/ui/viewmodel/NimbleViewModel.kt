@@ -1,15 +1,17 @@
 package com.anderson.nimble.ui.viewmodel
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.anderson.nimble.data.model.LoginWithEmailRequest
-import com.anderson.nimble.data.model.LogoutRequest
-import com.anderson.nimble.data.model.RefreshTokenRequest
-import com.anderson.nimble.data.model.Registration
-import com.anderson.nimble.data.model.UserData
+import com.anderson.nimble.data.model.forgotpassword.ForgotPasswordRequest
+import com.anderson.nimble.data.model.`login/logout`.LoginWithEmailRequest
+import com.anderson.nimble.data.model.loginlogout.LogoutRequest
+import com.anderson.nimble.data.model.forgotpassword.Message
+import com.anderson.nimble.data.model.token.RefreshTokenRequest
+import com.anderson.nimble.data.model.registration.Registration
+import com.anderson.nimble.data.model.registration.UserData
+import com.anderson.nimble.data.model.forgotpassword.UserMail
 import com.anderson.nimble.repository.NimbleRepository
 import com.anderson.nimble.utils.ClientUtils
 import com.anderson.nimble.utils.TokenUtils
@@ -175,4 +177,46 @@ class NimbleViewModel
         }.join()
     }
 
+    suspend fun forgotPassword() {
+        val userMail = UserMail(
+            "andersonms92@hotmail.com"
+        )
+        val forgotPassword = ForgotPasswordRequest(
+            userMail,
+            ClientUtils.clientId,
+            ClientUtils.clientSecret
+        )
+        viewModelScope.launch {
+            try{
+                val response = nimbleRepository.forgotPassword(forgotPassword)
+
+                if(response.isSuccessful){
+                    Message(response.body().toString())
+                } else {
+                    val errorBody = response.errorBody()?.string()
+
+                    if (!errorBody.isNullOrBlank()) {
+                        try {
+                            val errorJson = JSONObject(errorBody)
+                            val errorsArray = errorJson.getJSONArray("errors")
+
+                            for (i in 0 until errorsArray.length()) {
+                                val errorObject = errorsArray.getJSONObject(i)
+                                val detail = errorObject.getString("detail")
+                                val code = errorObject.getString("code")
+
+                                Timber.tag("Error").e("Detail: $detail, Code: $code")
+                            }
+                        } catch (e: JSONException) {
+                            Timber.e(e, "Erro ao analisar JSON de erro")
+                        }
+                    } else {
+                        Timber.e("Corpo do erro vazio ou nulo")
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Erro ao recuperar senha")
+            }
+        }.join()
+    }
 }

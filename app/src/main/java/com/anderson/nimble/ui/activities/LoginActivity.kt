@@ -30,6 +30,7 @@ class LoginActivity : AppCompatActivity(), CoroutineScope by MainScope(){
             nimbleViewModel.loginWithEmail()
             nimbleViewModel.refreshToken()
             nimbleViewModel.logout()
+            nimbleViewModel.forgotPassword()
 //            nimbleViewModel.registration()
         }
         Toast.makeText(this, "Teste", Toast.LENGTH_LONG).show()

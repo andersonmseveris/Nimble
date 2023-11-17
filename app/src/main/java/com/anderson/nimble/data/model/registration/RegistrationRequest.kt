@@ -1,4 +1,4 @@
-package com.anderson.nimble.data.model
+package com.anderson.nimble.data.model.registration
 
 data class Registration(
     var user: UserData,

@@ -1,4 +1,4 @@
-package com.anderson.nimble.data.model
+package com.anderson.nimble.data.model.token
 
 data class RefreshTokenResponse(
     val data: TokenRefreshData

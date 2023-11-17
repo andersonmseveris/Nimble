@@ -1,4 +1,4 @@
-package com.anderson.nimble.data.model
+package com.anderson.nimble.data.model.token
 
 data class RefreshTokenRequest(
     var grant_type: String,
