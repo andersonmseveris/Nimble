@@ -1,7 +1,7 @@
 package com.anderson.nimble.repository
 
 import com.anderson.nimble.data.model.forgotpassword.ForgotPasswordRequest
-import com.anderson.nimble.data.model.`login/logout`.LoginWithEmailRequest
+import com.anderson.nimble.data.model.loginlogout.LoginWithEmailRequest
 import com.anderson.nimble.data.model.loginlogout.LogoutRequest
 import com.anderson.nimble.data.model.token.RefreshTokenRequest
 import com.anderson.nimble.data.model.registration.Registration
