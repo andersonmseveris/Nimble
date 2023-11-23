@@ -41,8 +41,8 @@ class NimbleViewModel
     private val _surveyDetails = MutableLiveData<SurveyDetailsResponse>()
     val surveyDetails: LiveData<SurveyDetailsResponse> = _surveyDetails
 
-    private val _successfulLogin = MutableLiveData<String>()
-    val successfulLogin: LiveData<String> = _successfulLogin
+    private val _successfulLogin = MutableLiveData<Boolean>()
+    val successfulLogin: LiveData<Boolean> = _successfulLogin
 
     private val _accessToken = MutableLiveData<String>()
     private val _tokenType = MutableLiveData<String>()
@@ -79,11 +79,11 @@ class NimbleViewModel
         }
     }
 
-    suspend fun loginWithEmail() {
+    fun loginWithEmail(email: String, password: String) {
         val loginWithEmailRequest = LoginWithEmailRequest(
             "password",
-            "andersonms92@hotmail.com",
-            "123456",
+            email,
+            password,
             ClientUtils.clientId,
             ClientUtils.clientSecret
         )
@@ -93,7 +93,7 @@ class NimbleViewModel
 
                 if (response.isSuccessful) {
                     val accessTokenResponse = response.body()
-
+                    _successfulLogin.value = true
                     accessTokenResponse?.let { tokenResponse ->
                         val tokenData = tokenResponse.data
                         val attributes = tokenData.attributes
@@ -105,12 +105,14 @@ class NimbleViewModel
                         _createdAt.postValue(attributes.created_at).let { TokenUtils.setCreatedAt(attributes.created_at) }
                     }
                 } else {
+                    _successfulLogin.value = false
                     Timber.tag("Endpoint loginWithEmail")
                 }
             } catch (e: Exception) {
+                _successfulLogin.value = false
                 Timber.tag("Endpoint loginWithEmail")
             }
-        }.join()
+        }
     }
 
     suspend fun refreshToken() {
