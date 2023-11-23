@@ -30,7 +30,7 @@ fun SplashScreen(onSplashScreenFinished: () -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(id = R.drawable.loginbackground),
+                painter = painterResource(id = R.drawable.background),
                 contentDescription = "Logo Nimble",
                 modifier = Modifier
                     .size(200.dp)

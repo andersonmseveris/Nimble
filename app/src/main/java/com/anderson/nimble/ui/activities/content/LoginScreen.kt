@@ -33,10 +33,11 @@ import androidx.compose.ui.unit.sp
 import com.anderson.nimble.R
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.anderson.nimble.ui.viewmodel.NimbleViewModel
@@ -44,7 +45,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.anderson.nimble.ui.navigation.Screen
-import kotlinx.coroutines.delay
 
 @Composable
 fun LoginScreen() {
@@ -53,7 +53,7 @@ fun LoginScreen() {
 
     NavHost(
         navController = navController,
-        startDestination = Screen.LoadScreen.route
+        startDestination = Screen.LoginScreen.route
     ) {
         composable(Screen.LoginScreen.route) {
             SignIn(nimbleViewModel, navController)
@@ -64,7 +64,6 @@ fun LoginScreen() {
         }
     }
 }
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignIn(nimbleViewModel: NimbleViewModel,
            navController: NavController,
@@ -75,59 +74,19 @@ fun SignIn(nimbleViewModel: NimbleViewModel,
 
     Box(
         modifier = modifier
-            .requiredWidth(width = 375.dp)
-            .requiredHeight(height = 812.dp)
-            .background(color = Color(0xff15151a))
+            .fillMaxSize()
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
             Image(
-                painter = painterResource(id = R.drawable.loginbackground),
+                painter = painterResource(id = R.drawable.background),
                 contentDescription = "Background",
                 modifier = Modifier
                     .fillMaxSize()
             )
-        }
-        Overlay()
-
-        TextField(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(
-                    start = 24.dp,
-                    end = 24.dp,
-                    top = 302.dp,
-                    bottom = 454.dp
-                )
-                .clip(shape = RoundedCornerShape(12.dp))
-                .height(IntrinsicSize.Min),
-            value = emailText,
-            onValueChange = { newEmail -> emailText = newEmail },
-            label = {
-                Text(
-                    text = "Email"
-                )
-            }
-        )
-
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 24.dp, end = 24.dp, top = 402.dp)
-                .clip(shape = RoundedCornerShape(12.dp))
-                .height(IntrinsicSize.Min),
-            value = password,
-            onValueChange = { newPassword -> password = newPassword },
-            label = { Text("Password") },
-        )
-
-//        EditTextEmail()
-//        EditTextPassword()
-        ButtonLogin(navController, nimbleViewModel, emailText, password)
         LogoWhite()
-
+        Overlay()
+        EditTextEmail()
+        EditTextPassword()
+        ButtonLogin(navController, nimbleViewModel, emailText, password)
     }
 }
 
@@ -149,8 +108,9 @@ fun Overlay(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun EditTextEmail(
-) {
+fun EditTextEmail() {
+    var email by remember { mutableStateOf(TextFieldValue()) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -165,7 +125,34 @@ fun EditTextEmail(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(shape = RoundedCornerShape(12.dp))
-                .background(color = Color.White.copy(alpha = 0.18f))
+                .background(
+                    color = Color.White.copy(alpha = 0.2f)
+                )
+        )
+        BasicTextField(
+            value = email,
+            onValueChange = { email = it },
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(shape = RoundedCornerShape(12.dp))
+                .background(color = Color.Transparent),
+            textStyle = TextStyle(
+                color = Color.White,
+                fontSize = 17.sp,
+                letterSpacing = (-0.41).sp
+            ),
+            cursorBrush = SolidColor(Color.White),
+            decorationBox = { innerTextField ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    innerTextField()
+                }
+            }
         )
         TextEmail()
     }
@@ -189,7 +176,7 @@ fun TextEmail() {
                 .align(alignment = Alignment.CenterStart)
                 .offset(
                     x = 12.dp,
-                    y = 2.dp
+                    y = (-2).dp
                 )
                 .wrapContentHeight(align = Alignment.CenterVertically)
         )
@@ -197,9 +184,11 @@ fun TextEmail() {
 }
 
 @Composable
-fun EditTextPassword(modifier: Modifier = Modifier) {
+fun EditTextPassword() {
+    var password by remember { mutableStateOf(TextFieldValue()) }
+
     Box(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(
                 start = 24.dp,
@@ -212,10 +201,37 @@ fun EditTextPassword(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .fillMaxSize()
                 .clip(shape = RoundedCornerShape(12.dp))
-                .background(color = Color.White.copy(alpha = 0.18f))
+                .background(
+                    color = Color.White.copy(alpha = 0.2f)
+                )
         )
-        TextForgot()
+        BasicTextField(
+            value = password,
+            onValueChange = { password = it },
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(shape = RoundedCornerShape(12.dp))
+                .background(color = Color.Transparent),
+            textStyle = TextStyle(
+                color = Color.White,
+                fontSize = 17.sp,
+                letterSpacing = (-0.41).sp
+            ),
+            cursorBrush = SolidColor(Color.White),
+            decorationBox = { innerTextField ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 12.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    innerTextField()
+                }
+            }
+        )
         TextPassword()
+        TextForgot()
     }
 }
 
@@ -239,7 +255,7 @@ fun TextForgot(modifier: Modifier = Modifier) {
                 .align(alignment = Alignment.CenterEnd)
                 .offset(
                     x = (-12.199996948242188).dp,
-                    y = 0.800048828125.dp
+                    y = (-2).dp
                 )
                 .wrapContentHeight(align = Alignment.CenterVertically)
         )
@@ -264,7 +280,7 @@ fun TextPassword(modifier: Modifier = Modifier) {
                 .align(alignment = Alignment.CenterStart)
                 .offset(
                     x = 12.dp,
-                    y = 2.dp
+                    y = (-2).dp
                 )
                 .wrapContentHeight(align = Alignment.CenterVertically)
         )
@@ -273,18 +289,7 @@ fun TextPassword(modifier: Modifier = Modifier) {
 
 @Composable
 fun ButtonLogin(navController: NavController, viewModel: NimbleViewModel, email: String, password: String, modifier: Modifier = Modifier) {
-    val successfullLoginState = viewModel.successfulLogin.observeAsState()
-    var showLoginMessage by remember(viewModel.successfulLogin) { mutableStateOf(false) }
-
-    LaunchedEffect(key1 = successfullLoginState.value) {
-        if (successfullLoginState.value == true) {
-            navController.navigate(Screen.LoadScreen.route)
-        } else {
-            showLoginMessage = true
-            delay(2000)
-            showLoginMessage = false
-        }
-    }
+    val successfulLoginState by viewModel.successfulLogin.observeAsState()
 
     Box(
         modifier = modifier
@@ -299,6 +304,7 @@ fun ButtonLogin(navController: NavController, viewModel: NimbleViewModel, email:
         Tab(
             selected = false,
             onClick = {
+                navController.navigate(Screen.LoadScreen.route)
                 viewModel.loginWithEmail(email, password)
                       },
             text = {
@@ -320,22 +326,6 @@ fun ButtonLogin(navController: NavController, viewModel: NimbleViewModel, email:
             },
             modifier = Modifier.fillMaxWidth()
         )
-
-        if (showLoginMessage) {
-            Text(
-                text =  "Login error",
-                color = Color.Red,
-                textAlign = TextAlign.Center,
-                lineHeight = 1.29.em,
-                style = TextStyle(
-                    fontSize = 17.sp,
-                    letterSpacing = (-0.41).sp
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight(align = Alignment.CenterVertically)
-            )
-        }
     }
 }
 

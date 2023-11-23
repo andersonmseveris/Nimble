@@ -51,7 +51,7 @@ fun AnimatedShimmer() {
     val brush = Brush.linearGradient(
         colors = shimmerColors,
         start = Offset.Zero,
-        end = Offset(x = translateAnim.value, y = translateAnim.value)
+        end = Offset(translateAnim.value,0f)
     )
 
     ShimmerGridItem(brush = brush)
@@ -81,7 +81,7 @@ fun ShimmerGridItem(brush: Brush) {
                                 .fillMaxWidth(fraction = 0.4f)
                                 .background(brush)
                         )
-                        Spacer(modifier = Modifier.padding(5.dp))
+                        Spacer(modifier = Modifier.padding(8.dp))
                         Spacer(
                             modifier = Modifier
                                 .height(20.dp)
@@ -95,7 +95,7 @@ fun ShimmerGridItem(brush: Brush) {
                     )
                     Box(
                         modifier = Modifier
-                            .size(30.dp)
+                            .size(40.dp)
                             .clip(CircleShape)
                             .background(brush)
                     )
@@ -115,7 +115,7 @@ fun ShimmerGridItem(brush: Brush) {
                             .fillMaxWidth(fraction = 0.1f)
                             .background(brush)
                     )
-                    Spacer(modifier = Modifier.padding(5.dp))
+                    Spacer(modifier = Modifier.padding(8.dp))
                     Spacer(
                         modifier = Modifier
                             .height(20.dp)
@@ -123,7 +123,7 @@ fun ShimmerGridItem(brush: Brush) {
                             .fillMaxWidth(fraction = 0.7f)
                             .background(brush)
                     )
-                    Spacer(modifier = Modifier.padding(2.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
                     Spacer(
                         modifier = Modifier
                             .height(20.dp)
@@ -131,7 +131,7 @@ fun ShimmerGridItem(brush: Brush) {
                             .fillMaxWidth(fraction = 0.4f)
                             .background(brush)
                     )
-                    Spacer(modifier = Modifier.padding(5.dp))
+                    Spacer(modifier = Modifier.padding(8.dp))
                     Spacer(
                         modifier = Modifier
                             .height(20.dp)
@@ -139,7 +139,7 @@ fun ShimmerGridItem(brush: Brush) {
                             .fillMaxWidth(fraction = 0.9f)
                             .background(brush)
                     )
-                    Spacer(modifier = Modifier.padding(2.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
                     Spacer(
                         modifier = Modifier
                             .height(20.dp)
