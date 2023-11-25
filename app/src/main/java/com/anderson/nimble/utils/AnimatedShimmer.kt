@@ -1,4 +1,4 @@
-package com.anderson.nimble.ui
+package com.anderson.nimble.utils
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.FastOutSlowInEasing

@@ -1,4 +1,4 @@
-package com.anderson.nimble.ui.activities.content
+package com.anderson.nimble.ui.activities.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

@@ -21,7 +21,7 @@ data class SurveyAttributes(
     val cover_image_url: String,
     val created_at: String,
     val active_at: String,
-    val inactive_at: String?,
+    val inactive_at: String,
     val survey_type: String
 )
 

@@ -1,17 +1,19 @@
-package com.anderson.nimble.ui.activities.content
+package com.anderson.nimble.ui.activities.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,12 +34,16 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.anderson.nimble.R
 import androidx.compose.runtime.setValue
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.*
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.anderson.nimble.ui.viewmodel.NimbleViewModel
@@ -45,6 +51,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.anderson.nimble.ui.navigation.Screen
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 @Composable
 fun LoginScreen() {
@@ -62,12 +73,18 @@ fun LoginScreen() {
         composable(Screen.LoadScreen.route) {
             LoadScreen()
         }
+        composable(Screen.HomeScreen.route) {
+            HomeScreen(nimbleViewModel)
+        }
     }
 }
+
 @Composable
-fun SignIn(nimbleViewModel: NimbleViewModel,
-           navController: NavController,
-    modifier: Modifier = Modifier) {
+fun SignIn(
+    nimbleViewModel: NimbleViewModel,
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
 
     var emailText by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -75,18 +92,25 @@ fun SignIn(nimbleViewModel: NimbleViewModel,
     Box(
         modifier = modifier
             .fillMaxSize()
-    ) {
-            Image(
-                painter = painterResource(id = R.drawable.background),
-                contentDescription = "Background",
-                modifier = Modifier
-                    .fillMaxSize()
+            .paint(
+                painterResource(id = R.drawable.background),
+                contentScale = ContentScale.FillBounds
             )
+    ) {
         LogoWhite()
-        Overlay()
-        EditTextEmail()
-        EditTextPassword()
-        ButtonLogin(navController, nimbleViewModel, emailText, password)
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+        ) {
+            editTextEmail().let { emailText = it }
+            Spacer(modifier = Modifier.padding(8.dp))
+            editTextPassword().let { password = it }
+            Spacer(modifier = Modifier.padding(4.dp))
+            ButtonLogin(navController, nimbleViewModel, emailText, password)
+        }
+
+
+//        Overlay()
     }
 }
 
@@ -108,17 +132,15 @@ fun Overlay(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun EditTextEmail() {
+fun editTextEmail(): String {
     var email by remember { mutableStateOf(TextFieldValue()) }
-
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth(1f)
+            .height(56.dp)
             .padding(
                 start = 24.dp,
-                end = 24.dp,
-                top = 302.dp,
-                bottom = 454.dp
+                end = 24.dp
             )
     ) {
         Box(
@@ -156,6 +178,7 @@ fun EditTextEmail() {
         )
         TextEmail()
     }
+    return email.text
 }
 
 @Composable
@@ -184,17 +207,15 @@ fun TextEmail() {
 }
 
 @Composable
-fun EditTextPassword() {
+fun editTextPassword(): String {
     var password by remember { mutableStateOf(TextFieldValue()) }
-
     Box(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth(1f)
+            .height(56.dp)
             .padding(
                 start = 24.dp,
-                end = 24.dp,
-                top = 362.dp,
-                bottom = 395.dp
+                end = 24.dp
             )
     ) {
         Box(
@@ -233,6 +254,8 @@ fun EditTextPassword() {
         TextPassword()
         TextForgot()
     }
+
+    return password.text
 }
 
 @Composable
@@ -288,25 +311,37 @@ fun TextPassword(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ButtonLogin(navController: NavController, viewModel: NimbleViewModel, email: String, password: String, modifier: Modifier = Modifier) {
-    val successfulLoginState by viewModel.successfulLogin.observeAsState()
-
+fun ButtonLogin(
+    navController: NavController,
+    viewModel: NimbleViewModel,
+    email: String,
+    password: String,
+    modifier: Modifier = Modifier
+) {
+    val successfulLoginState by viewModel.successfulLogin.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val scope = rememberCoroutineScope()
     Box(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxWidth(1f)
             .padding(
-                start = 24.dp,
-                end = 24.dp,
-                top = 454.dp,
-                bottom = 302.dp
+                start = 7.dp,
+                end = 7.dp
             )
     ) {
         Tab(
             selected = false,
             onClick = {
-                navController.navigate(Screen.LoadScreen.route)
-                viewModel.loginWithEmail(email, password)
-                      },
+                scope.launch {
+                    viewModel.loginWithEmail(email, password)
+                }.invokeOnCompletion {
+                    if (successfulLoginState) {
+                        navController.navigate(Screen.HomeScreen.route)
+                    } else {
+                        navController.navigate(Screen.LoadScreen.route)
+                    }
+                }
+            },
             text = {
                 Text(
                     text = "Log in",
@@ -319,12 +354,11 @@ fun ButtonLogin(navController: NavController, viewModel: NimbleViewModel, email:
                     ),
                     modifier = Modifier
                         .background(color = Color.White, shape = RoundedCornerShape(10.dp))
-                        .requiredWidth(width = 335.dp)
-                        .requiredHeight(height = 50.dp)
+                        .fillMaxWidth(1f)
+                        .requiredHeight(height = 56.dp)
                         .wrapContentHeight(align = Alignment.CenterVertically)
                 )
-            },
-            modifier = Modifier.fillMaxWidth()
+            }
         )
     }
 }

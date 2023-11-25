@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.anderson.nimble.ui.activities.content.LoginScreen
+import com.anderson.nimble.ui.activities.screens.LoginScreen
 import com.anderson.nimble.ui.theme.NimbleTheme
 import dagger.hilt.android.AndroidEntryPoint
 

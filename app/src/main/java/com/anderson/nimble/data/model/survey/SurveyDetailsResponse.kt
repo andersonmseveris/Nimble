@@ -1,10 +1,10 @@
 package com.anderson.nimble.data.model.survey
 data class SurveyDetailsResponse(
-    val data: SurveyItem,
+    val data: SurveyDetailsItem,
     val included: List<QuestionItem>
 )
 
-data class SurveyItem(
+data class SurveyDetailsItem(
     val id: String,
     val type: String,
     val attributes: SurveyDetailsAttributes,

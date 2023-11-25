@@ -1,7 +1,7 @@
 package com.anderson.nimble.di
 
+import com.anderson.nimble.data.remote.NimbleApi
 import com.anderson.nimble.data.remote.NimbleAuthInterceptor
-import com.anderson.nimble.data.remote.NimbleServiceApi
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiConfigurationModule {
 
-    private fun buildClient(): OkHttpClient? {
+    private fun buildClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
         builder.connectTimeout(5, TimeUnit.MINUTES)
         builder.readTimeout(5, TimeUnit.MINUTES)
@@ -28,11 +28,11 @@ object ApiConfigurationModule {
 
     @Provides
     @Singleton
-    fun retrofitInstance(): NimbleServiceApi =
+    fun retrofitInstance(): NimbleApi =
         Retrofit.Builder()
             .baseUrl("https://survey-api.nimblehq.co/api/v1/")
-            .client(buildClient()!!)
+            .client(buildClient())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().disableHtmlEscaping().create()))
             .build()
-            .create(NimbleServiceApi::class.java)
+            .create(NimbleApi::class.java)
 }
