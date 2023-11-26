@@ -61,10 +61,8 @@ fun AnimatedShimmer() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShimmerGridItem(brush: Brush) {
-
     Column(modifier = Modifier
         .background(color = Color(0xFF15151A))) {
-
         Scaffold(
             modifier = Modifier.padding(all = 20.dp),
             topBar = {
