@@ -134,6 +134,7 @@ fun Overlay(modifier: Modifier = Modifier) {
 @Composable
 fun editTextEmail(): String {
     var email by remember { mutableStateOf(TextFieldValue()) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -176,7 +177,9 @@ fun editTextEmail(): String {
                 }
             }
         )
-        TextEmail()
+        if (email.text.isEmpty()) {
+            TextEmail()
+        }
     }
     return email.text
 }
@@ -251,7 +254,9 @@ fun editTextPassword(): String {
                 }
             }
         )
-        TextPassword()
+        if (password.text.isEmpty()) {
+            TextPassword()
+        }
         TextForgot()
     }
 
